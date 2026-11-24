@@ -61,7 +61,7 @@ cp .env.example .env                      # adjust ROS_DOMAIN_ID, ROBOT_HOST ...
 sudo ./host/setup_host.sh /path/to/99-auto-up-devs-<board>.rules
 sudo reboot
 ./host/check_host.sh                      # all CAN buses UP, rtprio 98
-make build                                # or pull ghcr.io/antonvynohradov/roboto-origin-runtime:humble
+docker compose -f compose.robot.yml pull  # ready image from GHCR (or: make build)
 make shell                                # interactive shell in the container
 make start POLICY=default                 # start the control stack
 ```

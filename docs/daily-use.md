@@ -44,11 +44,45 @@ Then 48 V motor button off, `sudo poweroff`, 5 V button off.
 
 ## Updating
 
-```bash
-cd roboto-origin-runtime
-git pull
-make build
-```
+=== "Ready image"
 
-To run a specific version of the Roboparty control code, set `DEPLOY_REF` (branch, tag or
-commit) in `.env` before `make build`.
+    ```bash
+    cd roboto-origin-runtime
+    git pull
+    docker compose -f compose.robot.yml pull
+    ```
+
+=== "Built yourself"
+
+    ```bash
+    cd roboto-origin-runtime
+    git pull
+    make build
+    ```
+
+## Image versions
+
+Every published image has two tags:
+
+| Tag | Meaning |
+|---|---|
+| `humble` | Latest build from the `main` branch |
+| `humble-<commit>` | Exact build of one commit of this repository; never changes |
+
+For a robot you want to keep stable, put the exact tag in `.env`, for example
+`IMAGE=ghcr.io/antonvynohradov/roboto-origin-runtime:humble-8aa4155…` (full commit hash from
+the GitHub *Packages* page).
+
+## Choosing the Roboparty code version
+
+The image contains `roboparty_deploy` at the version given by `DEPLOY_REF` (branch, tag or
+commit).
+
+- **Building yourself:** set `DEPLOY_REF` in `.env`, then `make build`.
+- **Published image:** on GitHub open *Actions → docker-build → Run workflow* and enter the
+  version in `deploy_ref`.
+
+!!! note "Cached builds keep the old code"
+    The download of `roboparty_deploy` is cached. Rebuilding with `DEPLOY_REF=main` after
+    Roboparty changed their code still gives the **old** version. Use a tag or commit hash
+    to get new code, or build locally with `docker compose -f compose.robot.yml build --no-cache`.

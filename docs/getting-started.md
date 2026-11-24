@@ -23,7 +23,7 @@ are typical for a Raspberry Pi 5 (a laptop is faster).
 - [ ] 4. Download this project
 - [ ] 5. Prepare the computer
 - [ ] 6. Connect the robot and check the hardware
-- [ ] 7. Build the control software
+- [ ] 7. Get the control software
 - [ ] 8. Start logging on your laptop
 - [ ] 9. First start
 - [ ] 10. Stop safely
@@ -150,22 +150,54 @@ You should see **[OK]** for `can0` to `can3` with `bitrate 1000000`, an IMU at
     [Host setup → Map USB ports to CAN buses](host-setup.md#2-map-usb-ports-to-can-buses)
     before enabling any motor.
 
-## 7. Build the control software
+## 7. Get the control software
 
-:material-clock-outline: 30–60 min, once
+:material-clock-outline: 5 min to download, or 30–60 min to build
 { .step-time }
 
-This downloads ROS 2 and the Roboparty control code and compiles them inside a container.
-It runs by itself; keep the SSH window open.
+The control software (ROS 2 + Roboparty code) comes as a Docker image. Choose one way:
 
-```bash
-make build
-```
+=== "Download the ready image (recommended)"
 
-!!! tip "Skip the build"
-    When images are published on GitHub, set
-    `IMAGE=ghcr.io/antonvynohradov/roboto-origin-runtime:humble` in `.env` and run
-    `docker compose -f compose.robot.yml pull` instead.
+    A ready image for Raspberry Pi (arm64) and PCs (amd64) is published on GitHub. Docker
+    picks the right one for your computer automatically.
+
+    1. Open the settings: `nano .env`
+    2. Make sure this line is there (it is the default):
+
+        ```bash
+        IMAGE=ghcr.io/antonvynohradov/roboto-origin-runtime:humble
+        ```
+
+    3. Download the image:
+
+        ```bash
+        docker compose -f compose.robot.yml pull
+        ```
+
+    !!! warning "Do not run `make build` afterwards"
+        `make build` compiles the image locally and replaces the downloaded one. You only
+        need it if you change the Dockerfile or want to build yourself.
+
+=== "Build it yourself"
+
+    Compiles everything on this computer. Use it when no image is published yet, or you
+    changed `docker/Dockerfile`. It runs by itself; keep the SSH window open.
+
+    ```bash
+    make build
+    ```
+
+    On a Raspberry Pi 5 this takes 30–60 minutes the first time.
+
+??? question "Access denied when downloading?"
+    The image is private. Either ask the owner to make the package public, or log in once
+    with a GitHub token that has the `read:packages` permission (paste the token as the
+    password):
+
+    ```bash
+    docker login ghcr.io -u YOUR-GITHUB-USER
+    ```
 
 ## 8. Start logging on your laptop
 
