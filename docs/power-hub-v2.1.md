@@ -6,28 +6,9 @@ the real board.
 
 ## Block diagram
 
-```
- Battery 48 V ──► 48VIN ──┬─► TVS SMBJ60CA, 2×100 µF + 2×100 µF + ceramics
-                          │
-                          ├─► [external lit push-button, pads U14/U15] ──► 48V ──► 4× XT30(2+2) ─► motors
-                          │                                                       (48V, GND, CAN_H, CAN_L)
-                          │
-                          └─► LM5148 buck ──► 5V_1 ──► [external lit button, pads U4/U7] ──► 5V_OUT
-                                                                                          │
-                                                                  USB-C "power only" (USB1)▼ ──► Raspberry Pi
-                                                                    CC: 10 kΩ pull-ups = "5 V / 3 A"
+[![Power hub V2.1 block diagram: 48 V power path, 5 V for the computer, USB to 4 CAN section](assets/power-hub-v2.1.svg)](assets/power-hub-v2.1.svg)
 
- Raspberry Pi USB ──► USB-C data (USB2) ──► F1 1 A polyfuse ──► +5V ──► TLV75733 ──► 3.3V
-                                │                                │
-                                ▼                                ├─► 2× VPS8505 + transformer + TPS76350
-                       SL2.1A USB 2.0 hub                         │      ──► ISO1_5V, ISO2_5V (isolated)
-                     ┌───────┬───────┬───────┐                    │
-                  STM32G431 ×4 (USB device + FDCAN, SWD header, 2 LEDs each)
-                     │       │       │       │
-                  ISO1050 ×4 isolated CAN transceivers, 120 Ω termination (0 Ω jumper), ESD
-                     │       │       │       │
-                   CAN1    CAN2    CAN3    CAN4  ──► XT30 connectors
-```
+*Click the diagram to open it full size.*
 
 ## Sheet 1 – 48 V distribution
 

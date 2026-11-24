@@ -21,19 +21,7 @@ CAN bus mapping used by `roboparty_deploy`:
 
 ## Layers
 
-```
-┌───────────────────────────────────────────────────────────┐
-│ Container (docker/Dockerfile)                             │
-│  ROS 2 Humble · roboparty_deploy (built) · can-utils      │
-│  entrypoint: hardware check, /logs/<run>/, candump        │
-├───────────────────────────────────────────────────────────┤
-│ Host (host/setup_host.sh)                                 │
-│  Linux kernel · gs_usb + SocketCAN · udev port mapping    │
-│  can0..can3 @ 1 Mbit/s · rtprio 98 / memlock · (RT kernel)│
-├───────────────────────────────────────────────────────────┤
-│ Hardware: Pi 5 / RDK X5 / Orange Pi 5 Plus / x86 PC       │
-└───────────────────────────────────────────────────────────┘
-```
+![Layers: container with ROS 2 and roboparty_deploy, host with SocketCAN, udev and real-time limits, replaceable hardware](assets/layers.svg)
 
 ### Why hardware stays on the host
 
