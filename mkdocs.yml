@@ -2,9 +2,9 @@ site_name: Roboto Origin Runtime
 site_description: >-
   Unofficial portable ROS 2 control environment and debug toolkit for the
   Roboto Origin humanoid robot.
-site_url: https://antonvynohradov.github.io/roboto-origin-runtime/
-repo_url: https://github.com/AntonVynohradov/roboto-origin-runtime
-repo_name: roboto-origin-runtime
+site_url: https://antonvynohradov.github.io/Roboto-Origin-Runtime/
+repo_url: https://github.com/AntonVynohradov/Roboto-Origin-Runtime
+repo_name: Roboto-Origin-Runtime
 edit_uri: edit/main/docs/
 copyright: Roboto Origin Runtime contributors · GPL-3.0-only · Unofficial, not affiliated with Roboparty
 
@@ -90,4 +90,4 @@ markdown_extensions:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/AntonVynohradov/roboto-origin-runtime
+      link: https://github.com/AntonVynohradov/Roboto-Origin-Runtime

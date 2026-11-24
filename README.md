@@ -1,6 +1,6 @@
 # Roboto Origin Runtime
 
-**Repository:** `roboto-origin-runtime` · **Docker image:** `ghcr.io/antonvynohradov/roboto-origin-runtime:humble`
+**[Documentation](https://antonvynohradov.github.io/Roboto-Origin-Runtime/)** · **[Step-by-step setup](https://antonvynohradov.github.io/Roboto-Origin-Runtime/getting-started/)** · **Repository:** `roboto-origin-runtime` · **Docker image:** `ghcr.io/antonvynohradov/roboto-origin-runtime:humble`
 
 Portable, containerised control environment for the
 [Roboto Origin](https://github.com/Roboparty/roboto_origin) humanoid robot (RPO), plus a
@@ -44,22 +44,11 @@ roboto-origin-runtime/
 
 ## Architecture in one picture
 
-```
-   Laptop / PC (debug station)                       Robot computer (Pi 5 / RDK X5 / laptop)
- ┌───────────────────────────────┐   Wi-Fi /      ┌────────────────────────────────────────┐
- │ compose.station.yml           │   Ethernet     │ compose.robot.yml (container)          │
- │  - ros2 CLI, topic echo       │◄──ROS 2 DDS───►│  - roboparty_deploy (inference, motors)│
- │  - ros2 bag record (mcap)     │                │  - candump of can0..can3               │
- │ tools/debug/stream_logs.sh    │◄─────SSH──────►│ host: SocketCAN, udev, RT limits       │
- │  - dmesg, journal, 5V monitor │                └──────────┬─────────────────────────────┘
- └───────────────────────────────┘                           │ USB
-                                                 ┌───────────▼──────────────┐   48 V + CAN
-                                                 │ Power hub V2.x           ├──► 4× XT30 → motors
-                                                 │ 4× STM32 USB→CAN, isol.  │
-                                                 └──────────────────────────┘
-```
+<p align="center">
+  <img src="docs/assets/architecture.svg" alt="Architecture: debug laptop, robot computer with the control container, power hub with four CAN buses to the limbs, 48 V battery" width="100%">
+</p>
 
-Details: [docs/architecture.md](docs/architecture.md)
+Details: [Architecture](https://antonvynohradov.github.io/Roboto-Origin-Runtime/architecture/)
 
 ## Quick start
 
@@ -87,11 +76,11 @@ make record                               # record all ROS topics to ./logs/<run
 ```
 
 Windows users: run the station inside WSL2 (Ubuntu 22.04) with mirrored networking.
-See [docs/debug-station.md](docs/debug-station.md).
+See [Debug station](https://antonvynohradov.github.io/Roboto-Origin-Runtime/debug-station/).
 
 ## Documentation
 
-**Documentation website:** <https://antonvynohradov.github.io/roboto-origin-runtime/>
+**Documentation website:** <https://antonvynohradov.github.io/Roboto-Origin-Runtime/>
 – built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) from the
 Markdown files in `docs/`, including a step-by-step setup guide for people with no Linux
 experience.
@@ -108,14 +97,14 @@ mkdocs serve            # http://127.0.0.1:8000
 
 | Document | Content |
 |---|---|
-| [docs/getting-started.md](docs/getting-started.md) | Step-by-step setup for beginners |
-| [docs/daily-use.md](docs/daily-use.md) | Power-on order, commands, updating |
-| [docs/architecture.md](docs/architecture.md) | What runs where, why hardware stays on the host |
-| [docs/host-setup.md](docs/host-setup.md) | Preparing Raspberry Pi OS / Ubuntu / Debian hosts |
-| [docs/debug-station.md](docs/debug-station.md) | Laptop as debug station (Linux and Windows/WSL2) |
-| [docs/power-hub-v2.1.md](docs/power-hub-v2.1.md) | Analysis of the RBE PWR HUB V2.1 schematic |
-| [docs/debugging-power-loss.md](docs/debugging-power-loss.md) | Procedure for "controller dies when motors are enabled" |
-| [docs/troubleshooting.md](docs/troubleshooting.md) | Common problems and fixes |
+| [Getting started](https://antonvynohradov.github.io/Roboto-Origin-Runtime/getting-started/) | Step-by-step setup for beginners |
+| [Daily use](https://antonvynohradov.github.io/Roboto-Origin-Runtime/daily-use/) | Power-on order, commands, updating |
+| [Architecture](https://antonvynohradov.github.io/Roboto-Origin-Runtime/architecture/) | What runs where, why hardware stays on the host |
+| [Host setup](https://antonvynohradov.github.io/Roboto-Origin-Runtime/host-setup/) | Preparing Raspberry Pi OS / Ubuntu / Debian hosts |
+| [Debug station](https://antonvynohradov.github.io/Roboto-Origin-Runtime/debug-station/) | Laptop as debug station (Linux and Windows/WSL2) |
+| [Power hub V2.1](https://antonvynohradov.github.io/Roboto-Origin-Runtime/power-hub-v2.1/) | Analysis of the RBE PWR HUB V2.1 schematic |
+| [Debugging power loss](https://antonvynohradov.github.io/Roboto-Origin-Runtime/debugging-power-loss/) | Procedure for "controller dies when motors are enabled" |
+| [Troubleshooting](https://antonvynohradov.github.io/Roboto-Origin-Runtime/troubleshooting/) | Common problems and fixes |
 
 ## Safety
 

@@ -27,17 +27,7 @@ humanoid robot, with a debug station on your own laptop.
 
 ## How it fits together
 
-```mermaid
-flowchart LR
-    L["Laptop<br/>debug station"] -- "Wi-Fi · SSH · ROS 2" --> C["Robot computer<br/>Docker container"]
-    C -- "USB data + 5 V" --> H["Power hub V2.x<br/>4 × USB→CAN"]
-    B["Battery 48 V"] -- "48 V" --> H
-    H -- can0 --> LL["Left leg"]
-    H -- can1 --> RL["Right leg + waist"]
-    H -- can2 --> LA["Left arm"]
-    H -- can3 --> RA["Right arm"]
-    style H fill:#e0115f,stroke:#ff5c93,color:#fff
-```
+![Architecture: debug laptop, robot computer with the control container, power hub with four CAN buses to the limbs, 48 V battery](assets/architecture.svg)
 
 - The **robot computer** runs the control software (`roboparty_deploy`) inside a container.
   Kernel-level parts (CAN drivers, USB port mapping, real-time limits) are set up once on
