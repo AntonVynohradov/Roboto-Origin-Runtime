@@ -1,0 +1,10 @@
+# Repository is edited on Windows but runs on Linux:
+# force LF so shell scripts and Dockerfiles work after `git clone` on Windows.
+* text=auto eol=lf
+*.sh  text eol=lf
+*.yml text eol=lf
+Dockerfile text eol=lf
+*.rules text eol=lf
+*.ps1 text eol=crlf
+*.pdf binary
+*.png binary

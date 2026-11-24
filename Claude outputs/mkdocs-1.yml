@@ -1,0 +1,93 @@
+site_name: Roboto Origin Runtime
+site_description: >-
+  Unofficial portable ROS 2 control environment and debug toolkit for the
+  Roboto Origin humanoid robot.
+site_url: https://antonvynohradov.github.io/roboto-origin-runtime/
+repo_url: https://github.com/AntonVynohradov/roboto-origin-runtime
+repo_name: roboto-origin-runtime
+edit_uri: edit/main/docs/
+copyright: Roboto Origin Runtime contributors · GPL-3.0-only · Unofficial, not affiliated with Roboparty
+
+theme:
+  name: material
+  language: en
+  font:
+    text: Red Hat Text
+    code: Red Hat Mono
+  icon:
+    logo: material/robot-industrial
+    repo: fontawesome/brands/github
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: custom
+      accent: custom
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+  features:
+    - navigation.sections
+    - navigation.top
+    - navigation.footer
+    - navigation.indexes
+    - navigation.instant
+    - toc.follow
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.tabs.link
+    - content.action.edit
+
+extra_css:
+  - stylesheets/extra.css
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - Step-by-step setup: getting-started.md
+      - Daily use: daily-use.md
+      - Debug laptop: debug-station.md
+  - Reference:
+      - Architecture: architecture.md
+      - Host setup: host-setup.md
+      - Troubleshooting: troubleshooting.md
+  - Hardware:
+      - Power hub V2.1: power-hub-v2.1.md
+      - Debugging power loss: debugging-power-loss.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.keys
+  - pymdownx.inlinehilite
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/AntonVynohradov/roboto-origin-runtime

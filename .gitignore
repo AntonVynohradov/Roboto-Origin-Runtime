@@ -1,0 +1,21 @@
+# Local configuration
+.env
+
+# Run logs, bags, CAN dumps
+logs/*
+!logs/.gitkeep
+*.mcap
+*.db3
+
+# Build artefacts (if the workspace is ever built on the host)
+build/
+install/
+log/
+site/
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db

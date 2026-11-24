@@ -1,0 +1,40 @@
+# Debug station – runs ON YOUR LAPTOP / PC (Linux, or Windows via WSL2 with
+# networkingMode=mirrored). It never talks to motors directly: it only listens to
+# and records ROS 2 traffic from the robot over Wi-Fi / Ethernet.
+#
+#   docker compose -f compose.station.yml run --rm station            # shell with ros2 CLI
+#   docker compose -f compose.station.yml up recorder                 # record everything
+#
+services:
+  station:
+    image: ${IMAGE:-roboto-origin-runtime:humble}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    network_mode: host
+    ipc: host
+    volumes:
+      - ./logs:/logs
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CAN_LOG=0            # no CAN hardware on the station
+    stdin_open: true
+    tty: true
+
+  recorder:
+    image: ${IMAGE:-roboto-origin-runtime:humble}
+    network_mode: host
+    ipc: host
+    volumes:
+      - ./logs:/logs
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CAN_LOG=0
+    command: >
+      bash -c 'ros2 bag record -a -s mcap -o "$${RUN_DIR}/bag"'
+    restart: "no"

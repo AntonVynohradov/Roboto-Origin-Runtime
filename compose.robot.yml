@@ -1,0 +1,48 @@
+# Control stack – runs ON THE ROBOT COMPUTER (Raspberry Pi 5, RDK X5, Orange Pi 5 Plus,
+# Linux laptop or x86 mini-PC), after `sudo ./host/setup_host.sh` and a reboot.
+#
+#   docker compose -f compose.robot.yml build
+#   docker compose -f compose.robot.yml run --rm robot                      # shell
+#   docker compose -f compose.robot.yml run --rm robot bash -c \
+#       "bash tools/start_robot.sh --robot rpo --policy default; exec bash"  # start control
+#   (start_robot.sh starts detached `screen` sessions and returns; `exec bash` keeps the
+#    container alive. Attach with: screen -r inference_session. Exiting the shell stops all.)
+#
+services:
+  robot:
+    image: ${IMAGE:-roboto-origin-runtime:humble}
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        DEPLOY_REPO: ${DEPLOY_REPO:-https://github.com/Roboparty/roboparty_deploy.git}
+        DEPLOY_REF: ${DEPLOY_REF:-main}
+    container_name: roboto
+    # SocketCAN interfaces (can0..can3) live in the host network namespace;
+    # host networking also lets ROS 2 DDS reach the debug station without extra config.
+    network_mode: host
+    ipc: host
+    # Control loop needs real-time priority and locked memory.
+    cap_add: [SYS_NICE, NET_ADMIN, IPC_LOCK]
+    ulimits:
+      rtprio: 98
+      memlock: -1
+    device_cgroup_rules:
+      - "c 188:* rmw"   # ttyUSB*  (IMU)
+      - "c 166:* rmw"   # ttyACM*
+      - "c 13:* rmw"    # /dev/input (gamepad)
+      - "c 189:* rmw"   # raw USB
+    volumes:
+      - /dev:/dev                        # hot-plugged devices stay visible
+      - ./logs:/logs                     # one timestamped folder per run
+      - ./config:/opt/roboto_ws/local_config:ro
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      - ROS_DOMAIN_ID=${ROS_DOMAIN_ID:-42}
+      - RMW_IMPLEMENTATION=rmw_cyclonedds_cpp
+      - CAN_LOG=${CAN_LOG:-1}
+    stdin_open: true
+    tty: true
+    restart: "no"   # never auto-restart a walking robot after a crash
